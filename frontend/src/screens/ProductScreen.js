@@ -16,7 +16,6 @@ const ProductScreen = ({ match }) => {
 
   useEffect(() => {
     dispatch(listProductsDetails(match.params.id))
-    console.log(product)
   }, [dispatch, match])
 
   return (
@@ -40,7 +39,9 @@ const ProductScreen = ({ match }) => {
               </ListGroup.Item>
               <ListGroup.Item>
                 <Rating
-                  value={product.rating}
+                  value={setTimeout(() => {
+                    return product.rating
+                  }, 200)}
                   text={`${product.numReviews} reviews`}
                 />
               </ListGroup.Item>
