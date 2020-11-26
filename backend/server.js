@@ -9,8 +9,10 @@ dotenv.config()
 
 connectDB()
 
+// INIT EXPRESS
 const app = express()
 
+// ROOT PAGE
 app.get('/', (req, res) => {
   res.send('API is running...')
 })
