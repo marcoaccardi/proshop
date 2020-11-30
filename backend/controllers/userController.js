@@ -3,7 +3,7 @@ import generateToken from '../utils/generateToken.js'
 import User from '../models/userModel.js'
 
 // @desc    Auth user & get token
-// @route   GET /api/users/login
+// @route   POST /api/users/login
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body
@@ -20,7 +20,7 @@ const authUser = asyncHandler(async (req, res) => {
     })
   } else {
     res.status(401)
-    throw new Error('invalid email or password')
+    throw new Error('Invalid email or password')
   }
 })
 
@@ -30,11 +30,11 @@ const authUser = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body
 
-  const userExist = await User.findOne({ email })
+  const userExists = await User.findOne({ email })
 
-  if (userExist) {
-    res.status(400) // bad request
-    throw new Error('user already exist')
+  if (userExists) {
+    res.status(400)
+    throw new Error('User already exists')
   }
 
   const user = await User.create({
@@ -53,11 +53,11 @@ const registerUser = asyncHandler(async (req, res) => {
     })
   } else {
     res.status(400)
-    throw new Error('invalid user data')
+    throw new Error('Invalid user data')
   }
 })
 
-// @desc    Auth user profile
+// @desc    Get user profile
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
@@ -90,16 +90,18 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     }
 
     const updatedUser = await user.save()
+
     res.json({
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
-      token: generateToken(updateUser._id),
+      token: generateToken(updatedUser._id),
     })
   } else {
     res.status(404)
     throw new Error('User not found')
   }
 })
+
 export { authUser, getUserProfile, registerUser, updateUserProfile }
