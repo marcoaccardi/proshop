@@ -26,7 +26,7 @@ const orderSchema = mongoose.Schema(
       postalCode: { type: String, required: true },
       country: { type: String, required: true },
     },
-    payementMethod: {
+    paymentMethod: {
       type: String,
       required: true,
     },
@@ -64,13 +64,13 @@ const orderSchema = mongoose.Schema(
       required: true,
       default: false,
     },
-  },
-  {
     deliveredAt: {
       type: Date,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 )
 
 const Order = mongoose.model('Order', orderSchema)
